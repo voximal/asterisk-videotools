@@ -1,0 +1,171 @@
+/* config.h.in.  Generated from configure.in by autoheader.  */
+/*
+ * Define this if you have a /dev/urandom which can supply good random numbers.
+ */
+#undef HAVE_DEV_URANDOM
+
+/*
+ * Define this if you want IPv6 support.
+ */
+#undef HAVE_IPv6
+
+/*
+ * V6 structures that host may or may not be present.
+ */
+#undef HAVE_ST_ADDRINFO
+#undef HAVE_GETIPNODEBYNAME
+#undef HAVE_SIN6_LEN
+
+/*
+ * Define these if your C library is missing some functions...
+ */
+#undef NEED_VSNPRINTF
+#undef NEED_INET_PTON
+#undef NEED_INET_NTOP
+
+/*
+ * If you don't have these types in <inttypes.h>, #define these to be
+ * the types you do have.
+ */
+#undef int8_t
+#undef int16_t
+#undef int32_t
+#undef int64_t
+#undef uint8_t
+#undef uint16_t
+#undef uint32_t
+
+/*
+ * Debugging:
+ * DEBUG: general debugging
+ * DEBUG_MEM: debug memory allocation
+ */
+#undef DEBUG
+#undef DEBUG_MEM
+
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
+/* Define to 1 if you have the `inet_aton' function. */
+#undef HAVE_INET_ATON
+
+/* Define to 1 if you have the `inet_ntop' function. */
+#undef HAVE_INET_NTOP
+
+/* Define to 1 if you have the `inet_pton' function. */
+#undef HAVE_INET_PTON
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define to 1 if you have the <netinet6/in6.h> header file. */
+#undef HAVE_NETINET6_IN6_H
+
+/* Define to 1 if you have the <netinet/ip6.h> header file. */
+#undef HAVE_NETINET_IP6_H
+
+/* Define to 1 if the system has the type `socklen_t'. */
+#undef HAVE_SOCKLEN_T
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the <stropts.h> header file. */
+#undef HAVE_STROPTS_H
+
+/* Define to 1 if you have the <sys/filio.h> header file. */
+#undef HAVE_SYS_FILIO_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/time.h> header file. */
+#undef HAVE_SYS_TIME_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have <sys/wait.h> that is POSIX.1 compatible. */
+#undef HAVE_SYS_WAIT_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define to 1 if you have the `vsnprintf' function. */
+#undef HAVE_VSNPRINTF
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
+#undef TIME_WITH_SYS_TIME
+
+/* Define to 1 if your processor stores words with the most significant byte
+   first (like Motorola and SPARC, unlike Intel and VAX). */
+#undef WORDS_BIGENDIAN
+
+/* Define to 1 if type `char' is unsigned and you are not using gcc.  */
+#ifndef __CHAR_UNSIGNED__
+# undef __CHAR_UNSIGNED__
+#endif
+
+/* Define to empty if `const' does not conform to ANSI C. */
+#undef const
+
+/* Define to `short' if <sys/types.h> does not define. */
+#undef int16_t
+
+/* Define to `long' if <sys/types.h> does not define. */
+#undef int32_t
+
+/* Define to `long long' if <sys/types.h> does not define. */
+#undef int64_t
+
+/* Define to `signed char' if <sys/types.h> does not define. */
+#undef int8_t
+
+/* Define to `unsigned' if <sys/types.h> does not define. */
+#undef size_t
+
+/* Define to `unsigned short' if <sys/types.h> does not define. */
+#undef uint16_t
+
+/* Define to `unsigned int' if <sys/types.h> does not define. */
+#undef uint32_t
+
+/* Define to `unsigned char' if <sys/types.h> does not define. */
+#undef uint8_t
+
+#ifndef WORDS_BIGENDIAN
+#define WORDS_SMALLENDIAN
+#endif
+
+

@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>MP4Player README</title></head>
+<body id="top">
+<h1><b>MP4Player internals</b></h1>
+<p>
+December, 2002<br>
+Bill May<br>
+<a href="http://www.cisco.com">Cisco Systems</a>
+<P>
+<b>
+<a href="#session">Session</a><br>
+<a href="#media">Media</a><br>
+<a href="#bytestream">Bytestream</a><br>
+<a href="#decode">Decode Plugin</a><br>
+<a href="#flow">Media Data Flow</a><br>
+<a href="#thread">Threading</a><br>
+<a href="#render">Rendering and Synchronization</a><br>
+<a href="#finally">Finally</a><br>
+</b>
+
+<P>
+This will attempt to describe the internal workings of mp4player for
+those that are interested. 
+<P>
+mp4player was intended as a mpeg4 streaming only player, but since
+we were going to handle multiple audio codecs, I made an early decision
+to support both local and streaming playback, as well as multiple 
+audio and video codecs.
+<P>
+mp4player (and its derivative applications gmp4player and wmp4player)
+is broken up into 2 parts - libmp4player, which contains everything
+for playback, and playback control code (for example, in gmp4player, this
+would be the GTK gui code).
+<P>
+There are a few major concepts that need to be understood.  These are
+the concepts of a <a href="#session">session</a>, a <a href="#media">media</a>, a 
+<a href="#bytestream">bytestream</a>, and a <a href="#decode">decode plugin</a>.
+<P>
+<div id="session">
+<h2>Session</h2>
+</div>
+<p>
+A session is something that the user wants to play.  This could be
+audio only, video only, both, multiple videos with audio, whatever.
+A session is represented by the CPlayerSession class, which is the
+major structure/API of libmp4player.  The CPlayerSession class is 
+also responsible for the synchronization of the audio and other 
+timed rendered classes.
+<P>
+<a href="#top">Back to top</a>
+<P>
+<div id="media">
+<h2>Media</h2>
+</div>
+<p>
+Each media stream is represented by a CPlayerMedia class.  This class
+is responsible for decoding data from the bytestream and passing it to
+a sync class for buffering and rendering.  The media class really doesn't
+care too much whether it is audio, video or text - the majority of the code
+works for both.
+<P>
+<a href="#top">Back to top</a>
+<P>
+<div id="bytestream">
+<h2>Bytestream</h2>
+</div>
+<p>
+A bytestream is the mechanism that gives the Media a frame (or a number
+of bytes) to decode, as well as a timestamp for that frame.  For example, 
+an mp4 file bytestream would read each audio or video frame from an mp4 
+container file.
+<P>
+mp4player supports bytestreams for avi files, mp4 files, mpeg files, 
+.mov files, some raw files, and RTP.
+<P>
+Some bytestreams need to be media aware (meaning they have to know something
+about the structure of the media inside of them).  The mpeg file and some
+of the RTP bytestreams are media aware; the mp4 container file is not.
+<P>
+Each media will have its own bytestream.  The bytestream base class resides
+in our_bytestream.h.
+<P>
+<a href="#top">Back to top</a>
+<P>
+<div id="decode">
+<h2>Decode Plugin</h2>
+</div>
+<p>
+Each media must have a way to translate from the encoded data to data
+that can be rendered (in the case of video, it is YUV data - for audio, 
+it will be PCM - if you need to know what YUV or PCM is, do a web search).
+<P>
+With this in mind, we have the concept of a decode plugin that the media
+can use to take data from the bytestream and pass it to the sync routines.
+At startup, decode plugins are detected (rather than hard linked at 
+compile time), and the proper decode plugin is detected as the media are
+created.
+<P>
+The decode plugin takes the encoded frame from the bytestream, decodes 
+it and passes the raw data to the rendering buffer.
+<P>
+<a href="#top">Back to top</a>
+<P>
+<div id="flow">
+<h2>Media Data Flow</h2>
+</div>
+<p>
+The media data flow is fairly simple:
+<P>
+bytestream -&gt; decoder -&gt;  render buffer -&gt;  rendering
+<P>
+<a href="#top">Back to top</a>
+<P>
+<div id="thread">
+<h2>Threading</h2>
+</div>
+<p>
+libmp4player uses multiple threads.  Whatever control is used will have
+its own thread, or multiple threads.
+<P>
+Each media has a thread for decoding, and if it uses RTP as a bytestream, 
+has a thread for RTP packet reception (except for RTP over RTSP, which 
+will have 1 thread for all media).
+<P>
+SDL will start a thread for audio rendering.
+<P>
+Finally, there is a thread for synchronization of audio and video.
+<P>
+<a href="#top">Back to top</a>
+<P>
+<div id="render">
+<h2>Rendering and Synchronization</h2>
+</div>
+<p>
+We use the open source package SDL for rendering - it is a multiple platform
+rendering engine for games.  We have modified it slightly to get the 
+audio latency for better synchronization. (Actually, we use the standard SDL
+routines, and copy the audio rendering into our own library, which we've added
+our audio latency code).  
+<P>
+The decode plugins will have an interface to a sync class.  There are
+3 interfaces; to audio, to video and to text classes.  There is a 
+common base sync class (CSync) that all sync class derive from.
+<p>
+Audio will have a CAudioSync class, which contains the basic APIs from 
+the plugin.  Audio now has an intermediate base class that we use, located 
+in audio_buffer.cpp and audio_buffer.h.  This class will take an create a 
+ring buffer from the decoded audio.  It will then allow callbacks, making 
+hardware specific calls to start/stop/pause.  It does a bunch more than that, 
+to verify that the audio is being received correctly, and will add/subtract 
+samples to match output frequency clock drift.
+<p>
+Text and Video share a common class (CTimedSync) which is called from
+the sync task.  CTimedSync (sync.h and timed_sync.cpp) contains information
+for ring buffers, interface from the sync class, and some statistics.
+<p>
+CTimedTextSync is derived from CTimedSync, and will interface with a
+CTextRenderer class.  It will determine which derived class of
+CTextRenderer to use when it receives a configure call from the plugin.
+<p>
+CVideoSync is a bit more complex, deriving from CTimedSync, and CVideoApi.
+CVideoApi is a list of the APIs from the plugins, and some special
+APIs from the sync task.  CSDLVideoSync derives from CVideoSync.
+<p>
+If one wanted, they could replace these functions with other rendering engines,
+like we did for audio on Mac OSX.  Look at audio_macosx.cpp for more examples.
+<P>
+Rendering is done through the CPlayerSession sync thread.  This is a
+fairly complex state machine when both audio and other timed media are being 
+displayed. It works by starting the audio rendering, then using the audio 
+latency to feedback the display time to the sync task for other rendering.  
+The audio buffer driver uses a callback when it requires more data.  
+<p>
+We synchronize the "display" times passed by the bytestream with the time of 
+day from the gettimeofday function.
+<P>
+<a href="#top">Back to top</a>
+<P>
+<div id="finally">
+<h2>Finally</h2></div>
+<p>
+
+To see the call flow to start and stop a session, you should look
+at main.cpp, function start_session().
+
+<P>
+<a href="#top">Back to top</a>
+<P>
+<a href="http://validator.w3.org/check/referer"><img
+   src="http://www.w3.org/Icons/valid-html401"
+   alt="Valid HTML 4.01!" height="31" width="88"></a>
+ </p>
+</body>
+</html>

@@ -1,0 +1,320 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "RGB2YUV"=.\server\util\rgb2yuv\RGB2YUV60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name gnugetopt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmissing60
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "avi2raw"=.\server\util\avi2raw\avi2raw60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name gnugetopt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmissing60
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libavi
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "avidump60"=.\SERVER\UTIL\AVIDUMP\avidump60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libmissing60
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libavi
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "h264_parse"=.\UTIL\H264\h264_parse.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libmissing60
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "isoencoder"=".\common\video\iso-mpeg4\isoencoder60.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "lboxcrop"=.\server\util\lboxcrop\lboxcrop60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name gnugetopt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmissing60
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libavi"=.\lib\avi\libavi60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libismacryp"=.\lib\ismacryp\libismacryp.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libmissing60"=.\lib\gnu\libmissing60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libmp4av"=.\lib\mp4av\libmp4av.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libmp4v2"=.\lib\mp4v2\libmp4v260.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libmpeg2ps"=.\LIB\MPEG2PS\libmpeg2ps.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "mp4creator"=.\server\mp4creator\mp4creator60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name gnugetopt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name need_for_win_st
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmissing60
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmpeg32_st
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmpeg2ps
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4v2
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4av
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libavi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libismacryp
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "mp4dump"=.\lib\mp4v2\util\mp4dump60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name gnugetopt
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name need_for_win_st
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmissing60
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4v2
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "mp4info"=.\LIB\MP4V2\UTIL\mp4info.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libmissing60
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4v2
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "mp4tags"=.\LIB\MP4V2\UTIL\mp4tags.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libmissing60
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4v2
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "mpeg4vol"=.\UTIL\MPEG4VOL\mpeg4vol.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libmissing60
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4v2
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "yuvdump"=.\util\yuv\yuvdump60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

@@ -1,0 +1,329 @@
+05/11/06 Version 1.5
+    Added integration with libsrtp for player and mp4live
+    Updated for gcc 4.0
+    Integrated changes from SDL-1.2.9
+    Added support for Quicktime .mov aac audio
+    Fixed some issues with H.264 hinting.
+    Fixed some issues with mp4v2 and metadata
+    Added some atoms for OpenIPMP for mp4v2.
+    Added some APIs for mp4v2 to access atom properties.
+    Added wide filenames for mp4v2 for Windows.
+    Changed RTP library APIs to use unsigned, const when applicable.
+    Added new RTP library APIs for session creation.
+    Added RFC 3605 (rtcp port doesn't have to be rtp port + 1) in player
+      and mp4live.
+    Smoothed out changes to audio correction in player
+    Fixed player initialization when media takes a long time.
+    Fixed playback of mp3 files with id3 tags.
+    Added some H.264 nerd knobs in mp4live
+    
+11/10/05 Version 1.4
+    Added restart of file recording in mp4live
+    Autodetection of SRTP library for ISMACryp
+    Changes for GCC 4.0
+    G.711 hinter in mp4live.
+    Allow multiple covers in mp4 files.
+    Add correct extension for cover art extracts (user contributed)
+    LPCM reading in mpeg2 program streams
+    Fix audio playback stuttering when frame size might be less than callback 
+        size
+    Fix audio resampling problems with multiple audio streams in mp4live
+    Added Stream Caption for mp4live streams.
+    Added ALSA source for mp4live (off by default - user contributed)
+    Added multiple input pixel formats (YUYV, UYVY, YYUV) for mp4live (V4L2 
+          only)
+    Added some SEI decoding in h264_parse
+    Allow changing of video source during session
+    Removed support for v4l
+    Added latm rtp packetization for mp4live, mp4creator and mp4player
+    Support for h.264, LPCM in mpeg program streams
+    Some support for aac in .mov files
+    mp4player support for RTSP proxies
+    Shorter latency in mp4player
+    Fixed h.263 file reading in mp4creator
+
+05/18/05 Version 1.3
+    Rewrite of mp4live to handle multiple streams per single video source
+    Reduced footprint of mp4v2
+    Updated to SDL 1.2.8
+    Removed "60" from windows executables name
+    Fixed H.264 extract using mp4creator to put out correct 0 0 0 1 header
+    Fixed H.264 import problem using mp4creator
+    Fixed a number of tool/compiler related problems
+    Mp4creator will no longer create ISMA compliant OD and BIFs tracks, 
+     as well as IODs unless -make-isma-10-compliant flag is used
+    Added H.264 encoding using x264 to mp4live
+    Added H.264, ffmpeg mpeg-4 b frames encoding to mp4live
+    Added mp4videoinfo dump
+    Added G.711 codec for player and mp4live
+    Removed requirement installing lame and faac for mp4live
+    Gcc 4.0 fixes for Mac 10.4
+    Better support of webcams in mp4live
+    Better support of mpeg2 in mp4 files.
+    Fixed metadata problem with free atom in mp4v2
+    Created mp4videoinfo utility - dumps info about mpeg4, h264 video frames 
+    Add support for ISMA HREF specification in mp4live, player.
+    Correctly add pts for h.264 in mp4 file (Thanks to Laurent Aimar)
+
+12/03/04 Version 1.2
+    Added 3GP, .mov support to mp4v2
+    Added ffmpeg decoder support (MPEG-2, H.264, MPEG-4, Sorenson, AMR)
+    Added H.264 support to mp4v2, mp4creator, player, mpeg2t
+    Added --disable-xvid flag to bootstrap
+    Better checking for compile flags in configure
+    Fixes for gcc 3.4
+    Made mp4info work with most .mov files
+    Changed player plugin format to pass what media we're looking from
+        (MP4 FILE, MPEG FILE, RTP, etc).
+    Fixed 5.1 downconvert to stereo in player
+    Mac OSX support for player
+    player support for 1:1 aspect ratio
+    Added AMR and H.263(rfc2429) hinters and RTP plugins
+    player support for H.263 and AMR through ffmpeg
+    Updated some of UCL RTP library 1.2.16 changes
+    Rewrote player audio renderer for long term sync
+    Fixes for player rtp base class for long term sync
+    Allow player to handle timestamp discrepancies.
+    Removed libmpeg3, added mpeg program stream reader code
+    Multi-output mp4live from Cesar Gonzalez
+
+05/17/04 version 1.1
+    Added no-overwrite mode in mp4live
+    if present, use libid3 to read ID tags
+    Fixed problem with player a/v sync when relaying through DSS
+    Added input video filters to mp4live
+    Added player plugins for libac3 and libmpeg2 (must be installed before configuration)
+    Fixed sync flag indication for mp4creator using avi files.
+    Fixed so that 64 bit machines could be used easier.  Enhanced macros for
+      indication of 64 bits, and for 64 bit printf formatting.
+    Changed PACKAGE and VERSION for mpeg4ip to MPEG4IP_PACKAGE and
+      MPEG4IP_VERSION
+    Have player use mp4live configuration variable routines
+    Changed so that we no longer overwrite SDL, but clone SDL audio
+      with our changes.
+    Mac OSX support (including mp4player) and some xcode projects for tools
+    Mpeg2 transport stream file parsing for player, including crude seek
+    Mpeg2 transport stream works with some mpeg2 transport stream servers - 
+     use mpeg2t:// instead of rtsp://.
+    Mpeg2 video encoding via ffmpeg in mp4live
+    Xvid 1.0 API for mp4live, gmp4player
+    Ability to enter config file parameters on command line for mp4live and gmp4player
+    ISMAcryp support
+    mpeg4vol and H.264 file reader utilities.
+    For player, added downconverting/upconverting of channels to 1 or 2 channels,
+      also added some new audio formats
+
+12/23/03 version 1.0
+    Fix incorrect timestamp on mpeg1/2 insert into mp4 file.
+    Allow iTunes \0\0\0\0 atom
+    Fix modal aspects of mp4live dialogs
+    Added several things to README
+    Fixed configuration for several different systems
+
+11/20/03 version 1.0RC3
+    Fixed compilation on SuSE 9.0 personal
+    Added compatibility code for large files and Quicktime local playback
+    Read aspect ratio in player for mpeg1/2/4 and set correctly
+
+11/04/03 version 1.0RC2
+    Fixed V4L2 missing parameter to VIDIOC_QBUF parameter for 2.6 kernel
+    Fixed timestamp problem in mpeg1 reception - fix IPBPBP problem
+    Fixed fragmentation problem in RFC 3119 reception
+    Fixed profile/level problem in VOL header in mp4live
+    Added xvid decoding on simple tools indicated in VOL header
+
+10/23/03 version 1.0RC1
+    Fixed non-compliance in mp4live created ISMA files with 0 length frames
+    Updated profile @ level defines for audio and video
+    Added V4L2 support for mp4live
+    Fixed audio/video longterm lipsync problems in mp4live
+    Added support for ffmpeg encoder
+    Added support for released verions of xvid and faac encoders
+    User fixes for several areas - porting and others
+    ISO decoder speed up by Richard Chen
+    Support for iTunes metadata
+
+07/03/03 Version 0.9.9
+    Added H.261 encoding for mp4live
+    Fixes from April ISMA plugfest
+    Minor fixes to mp4live
+    Build fixes for Solaris
+
+03/05/03 Version 0.9.8
+    Several changes from ISMA plugfest in IOD and RTSP.
+    Fixed audio/video sync problem in mp4live, plus some other problems
+       with audio destination.
+    Added video profile level override.
+    Some help for MAC users
+    Added resync marker checking in xvid decoder.
+    Added seek function in gmp4player
+    For broadcasts received in gmp4player, don't wait for RTCP to be received -
+      added syncronization between streams.
+    Added aspect ratio changing for video in mp4player (From Maersk)
+    Fixed problems with Windows platform SDK.
+
+11/22/02 Version 0.9.7
+    Improved mp4creator warning messages if VOSH/VO are not included
+      in mpeg4 video from avi or .mp4v file
+    Removed lame from package - version 3.92 required if mp4live is
+      desired.
+    Added mp4trackdump
+    SDL 1.2.5 (also added ALSA buffer delay)
+    Added error message from player when play command fails
+    Add method of reading programs from IP/TV content manager, then
+      starting them with special iptv url
+    Xvid check for SSE2 instructions from Steve Schultz
+    Got new TV tuner frequency lists from xawtv
+    Added command to mp4creator to force 64 bit file sizes
+    H.261 decoding for player
+    Send immediate RTCP when starting mp4live
+
+09/25/02 Version 0.9.6
+    RTP plugins for player.
+    Converted libmpeg32 to use SDL mutexes instead of pthreads
+    H.263 (mpeg4 short headers) supported by ISO decoder in player
+    Mpeg2 transport stream reception in player
+    Work on SDL audio for smaller frame sizes
+    GLIB and GTK 2.0 detection and changes
+    Fixed some player RTP bugs:
+    - continue sending RTCP while paused.  This will keep RTSP session open
+    When have mpeg2 half-D1, convert to full-D1 for playback.
+    When receiving a forward stream from DSS, don't stop right away.
+    Fixed raw audio endianness in mp4live, raw audio.  Added raw audio hinting
+      to mp4creator (L16 format).
+    Added .mpg file to .mp4 conversion, hinting of mpeg1 and mpeg2
+      according to RFC 2250 (see note on quicktime compatibility in README).
+    Fixed BIFS/IOD according to ISMA Corrigenda
+    For SUN, fixed xvid to take correct WORDS_BIGENDIAN define from config.h
+
+07/15/02 Version 0.9.5
+    Mpeg1/2 video codec, file playback and RFC 2250 streaming in player.
+    IPv6 integration
+    CELP audio plugin for player, including streaming.
+    Split out rendering engine from audio sync classes
+    Interoperability work for QT6 and RealOne/Envivio
+    Added media aware track extraction feature to mp4creator
+         includes correct extraction of AAC tracks
+    Extended the mp4v2 library to provide some editting features,
+        see mpeg4ip/lib/mp4v2/API_CHANGES for details
+
+05/08/02 Version 0.9.4
+    Plugin concept for player codecs (also adds YUV/PCM output from mp4 file)
+    Show play time in player GUI
+    Enhance message box errors when starting player session
+    Added .avi file audio for PCM and mp3. (no seek).
+    Added L8 and L16 rtp support to player
+    Added RFC 3119 support to mp4player.
+    Generate IOD in mp4live's SDP files (Envivio interoperability)
+    Integrated Xvid 4/12/02 snapshot:
+        Replaces OpenDivx and ffmpeg codecs for encoding
+        Replaces OpenDivx for decoding in player
+    OpenDivx, ffmpeg, sndfile, and DSS4 removed from distribution:
+        FAAC modified to work without sndfile.
+
+02/26/02 Version 0.9.3
+    Added RFC 3119, MP3 robust RTP payload, support to mp4creator.
+    Improved mp4live's synchronization of audio and video.
+    Improved mp4player video resizing on Windows.
+    Changed .gmp4_playlist extension to .mp4plist
+    Added avidump utility.
+    Updated FAAD (AAC audio decoder).
+    Enhanced mp4player decode performance for ISO codec.
+    Fixed a bunch of memory leaks in mp4player.
+    Enhanced RTP over RTSP in mp4player
+    Added Windows gui to mp4player.
+    Added support for RTP over RTSP on Windows.
+    Added Solaris support.
+    Added raw recording support to mp4live.
+    Added AAC support to mp4live.
+    Fixed mp4live TV frequency tuning bug.
+    Fixed mp4live audio sampling rate bugs.
+    Some minor API changes to MP4 library, see lib/mp4v2/API_CHANGES
+
+12/17/01 Version 0.9.2
+    Added VC 6.0 projects for windows
+    Upgraded to SDL version 1.2.3
+    Added shortcut keys for mp4player video window
+    Enhanced player debug reporting
+    Added RTP debugging messages in player format.
+    Disable player sending RTCP when b=RR:0 is set in SDP
+    Added man pages for mp4v2 library API
+    Added hint track reading utlities to mp4v2 library
+    Fixed bugs in SDP version of IOD
+    Enhanced player decode performance for all but ISO codec.
+
+11/7/01 Version 0.9.1
+    Command line encoding tools now build and run on Windows
+    Added a script, mp4v1regenerate, that can convert most old mp4 files 
+        created with original mp4 library to corrected mp4 file format 
+        generated by new mp4 library
+    Fixed bad casts in new mp4 library when creating hint tracks
+    Added man pages for primary programs: 
+        gmp4player, mp4creator, mp4encode, mp4live 
+
+11/6/01 Version 0.9
+    New implementation of mp4 file library and utlities.
+    New implementation of mp4 file creator/hinter.
+    Added RTP over RTSP (TCP) mode to player.
+    Added player "catch up" code for slower processors
+    ISMA compliance fixes
+    Fixed RFC 2250 compliance problem
+    Updated to DSS 3.0.1
+    Update to UCL RTP version 1.2.8
+
+9/17/01 Version 0.8
+    Port to FreeBSD, BSD/OS, Mac OS X (including Cocoa UI for Mac OS X)
+    Conversion of ISO codec to use automake
+    Update to SDL 1.2.2, including BSD/OS CD-ROM enhancements.
+    Fix various interoperability bugs.
+    Added SDP decode debugging.
+    Added HTTP fetch capability of SDP files for player,
+        including HTTP redirect.
+    Fix player for non-44100Hz AAC streams.
+    Added setting of debug level for messages 
+        from HTTP, RTSP and SDP libraries from player UI.
+    Changed player bytestream to throw ints instead of chars 
+        when error occurs.
+    Added frame fragmentation to ISMA audio RTP bytestream.
+    Added search for MP3 files.
+    Added config variables for receive RTP ports for player.
+    Added better player support for systems with no audio.
+    
+8/1/01 Version 0.7
+    Added live encoding program, mp4live
+    Improved player synchronization of audio and video for OSS 
+        supported platforms.
+    Improved OpenDivX encoder performance
+    Added interleaved audio RTP payload format support
+    Fixed a number of bugs with mp4 file library
+    Fixed compiling on windows platforms
+
+5/7/01 Version 0.6.2
+    Fixes so that package now builds on RedHat 6.1, 6.2, 7.0, and 7.1
+    LAME MP3 encoder is now included
+    Fixes to play Philips MP4 files correctly
+    Enabled MMX routines for OpenDivX encoder (x86 architectures only)
+    Extended Darwin PlaylistBroadcaster to control multicast IP TTL.
+    Faac now handles UNIX paths correctly
+    Fixed several bugs in mp4encode script
+
+4/23/01 Version 0.6.1
+    Fixed interoperability between OpenDivX and ISO MPEG-4 video codecs
+    Fixed RTSP interoperability problem with Darwin Streaming Server 2.0
+    Updated mp4encode script to simplify the encoding process
+    Player now keeps history list
+    Enabled some post-processing of video in the player
+    Added mp4extract utility
+    Fixed avi2raw to handle zero length video frames in AVI file
+
+3/30/01 Version 0.6
+    Inclusion of the OpenDivx MPEG-4 video encoder/decoder
+    Inclusion of MP3 audio in addition to AAC audio
+    Inclusion of the Apple Darwin Quicktime Server
+    Support for the MP4 file format
+    Support for multicast streaming
+    Added fullscreen mode to player
+    Windows port of the player
+
+2/5/01 Version 0.5
+    Initial public release

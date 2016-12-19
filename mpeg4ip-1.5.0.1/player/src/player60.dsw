@@ -1,0 +1,644 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "SDLaudio"=..\..\lib\SDLAudio\SDLaudio.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "aac_plugin"=.\codec\aa\aac_plugin_60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libfaad
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libfileposrec
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4util
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name bitstream
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4av
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "audio"=..\..\lib\audio\audio.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "celp_plugin"=..\plugin\audio\celp\celp_plugin.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libcelp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4util
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name bitstream
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4av
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "common"=..\..\lib\rtp\common60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "href_plugin"=..\plugin\text\href\href_plugin.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "isma_audio_rtp_plugin"=..\PLUGIN\RTP\ISMA_AUDIO\isma_audio_rtp_plugin.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name bitstream
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4util
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "isma_href_rtp_plugin"=..\plugin\rtp\isma_href\isma_href_rtp_plugin.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ismacryp_rtp_audio"=..\plugin\rtp\isma_audio\ismacryp_rtp_audio.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libismacryp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name bitstream
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4util
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "ismacryp_rtp_video_plugin"=..\PLUGIN\RTP\ISMA_VIDEO\ismacryp_rtp_video_plugin.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name bitstream
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libismacryp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4util
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libavi"=..\..\lib\avi\libavi60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libcelp"=..\lib\audio\celp\libcelp.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libfaad"=..\lib\audio\faad\libfaad60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libfileposrec"=..\..\lib\fposrec\libfileposrec60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libhttp"=..\lib\libhttp\libhttp60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libismacryp"=..\..\LIB\ISMACRYP\libismacryp.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libmissing60"=..\..\lib\gnu\libmissing60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libmp3util60"=..\LIB\AUDIO\MP3UTIL\libmp3util60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libmp4"=..\..\lib\mp4\libmp460.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libmp4av"=..\..\lib\mp4av\libmp4av.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libmp4v2
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmissing60
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libmp4util"=..\lib\mp4util\libmp4util60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libmp4v2"=..\..\lib\mp4v2\libmp4v260.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libmpplayer"=.\libmpplayer60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name bitstream
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name common
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libavi
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libhttp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4v2
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name librtsp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libsdp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name need_for_win
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4util
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp3util60
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmpeg32
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmpeg32util
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libismacryp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name audio
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libmsg_queue"=..\..\lib\msg_queue\libmsg_queue60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libobj"="..\..\common\video\iso-mpeg4\libobj60.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "librtsp"=..\lib\rtsp\librtsp60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libsdp"=..\..\lib\sdp\libsdp60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "mp3_plugin"=.\codec\mp3\mp3_plugin60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libfileposrec
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp3
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp3util60
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4av
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "mp4player"=.\mp4player60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libmpplayer
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libconfig_file
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmsg_queue
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmissing60
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name wav_plugin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4av
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name utils
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name SDLaudio
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ismacryp_rtp_audio
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name aac_plugin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name celp_plugin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name isma_audio_rtp_plugin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ismacryp_rtp_video_plugin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name mp3_plugin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name isma_href_rtp_plugin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name href_plugin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name mpeg4_iso_plugin
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "mpeg4_iso_plugin"=.\codec\mpeg4\mpeg4_iso_plugin60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libfileposrec
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4av
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libobj
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "utils"=..\..\LIB\UTILS\utils.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "wmp4client60"=.\win_client\wmp4client60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libmpplayer
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libconfig_file
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmsg_queue
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmissing60
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libmp4av
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name utils
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name SDLaudio
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ismacryp_rtp_video_plugin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name aac_plugin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name celp_plugin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name isma_audio_rtp_plugin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ismacryp_rtp_audio
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name mp3_plugin
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "wmp4player60"=.\wmp4player60.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libconfig_file
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name aac_plugin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name mp3_plugin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name wav_plugin
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name wmp4client60
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

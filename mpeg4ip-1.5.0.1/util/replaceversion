@@ -1,0 +1,7 @@
+BEGIN { FS = "[().,][ \t]*|[ \t]+" }
+
+/^AC_INIT*/ { 
+	printf("AC_INIT(mpeg4ip, %s)\n", VERSION);
+}
+
+$1 !~ /AC_INIT/ { print $0 }

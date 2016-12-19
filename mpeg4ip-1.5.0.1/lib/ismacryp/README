@@ -1,0 +1,68 @@
+MPEG4IP ISMACRYP README
+
+September, 2005
+
+This library, ismacryp, implements
+the ISMA encryption and authentication protocol defined in "ISMA 1.0 Encryption
+and Authentication, Version 1.0" specification which is published on the ISMA
+web site. This specification is referred to as Ismacryp in the remainder of
+this README.
+
+Certain portions of the protocol are not implemented: selective
+encryption which allows for the encryption of selected streaming packets and
+alternating keys.
+
+The ismacryp lib utilizes a separate library, srtplib, for
+AES Integer Counter Mode encryption functions. The srtplib is not included in
+the mpeg4ip distribution. However, the ismacryp library implemented here will
+still operate correctly in the absence of the srtplib. All new mp4 atoms and
+headers in the case of streamed files are included in an Ismacryp file but the
+data will not be encrypted. The player will properly decode and play Ismacryp
+files or streams that are created without the encryption functions provided by
+srtplib.
+
+To build and install mpeg4ip without srtplib, pass --disable-srtp to
+configure or bootstrap.
+
+To build and install mpeg4ip with srtplib, perform the
+following steps.
+
+   1. Obtain the libsrtp package version 1.3.22 or later from
+the Sourceforge site (not available as of 2005/9/9).
+   2. Configure libsrtp
+with the generic option to remove srtp-specific limitations by changing the AES
+ICM functions. Then build and install the srtplib libraries.
+      % configure
+--enable-generic
+      % make
+      % make install 
+
+By default libsrtp will
+install its libraries and header files in /usr/local/lib and
+/usr/local/include/srtp respectively. mpeg4ip will look for both in
+system-defined library and include paths. If it finds them it will
+automatically include them in the build unless --disable-srtp is passed to
+configure.
+
+Prior to using Ismacryp functions, it necessary to provide a key
+file. The key file must be named .kms_data and a sample is included in this
+directory. This file must be placed in the home directory of the user running
+the mpeg4ip application.
+
+Using Ismacryp functions (see the other project
+README files for more detailed information):
+
+   1. To create an Ismacryp mp4
+file: mp4creator -encrypt <filename>. A new file named <enc-filename> will be
+created.
+   2. To play an Ismacryp file locally: use mp4player or gmp4player in
+the usual way.
+   3. To stream an Ismacryp file: create hint tracks and use
+mp4creator in the usual way.
+
+Functions provided by ismacryplib are described
+in ismacryp.h
+
+alexv@cisco.com
+will_clark@cisco.com
+

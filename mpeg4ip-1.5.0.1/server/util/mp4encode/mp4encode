@@ -1,0 +1,195 @@
+#!/bin/sh
+# mp4encode <avi-file>
+
+# Initialize default values for options
+convertRgb=0
+videoWidth=320
+videoHeight=240
+fps=24
+aspectRatio=1.33	# 4:3 standard definition TV aspect ratio
+use_iso=0
+vbitRate=500
+samplingFreq=44100
+
+use_mp3=0
+abitRate=96
+
+debug=0
+
+# Process command line options
+while getopts "A:IMRV:a:dh:r:w:k:" opt; do
+	case $opt in
+		A ) abitRate=$OPTARG ;;
+		I ) use_iso=1 ;;
+		M ) use_mp3=1 ;;
+		R ) convertRgb=1 ;;
+		V ) vbitRate=$OPTARG ;;
+		a ) aspectRatio=$OPTARG ;;
+	        k ) samplingFreq=$OPTARG ;;
+		d ) debug=1 ;;
+		h ) videoHeight=$OPTARG ;;
+		r ) fps=$OPTARG ;;
+		w ) videoWidth=$OPTARG ;;
+		\? ) echo "usage: $0 [-w width] [-h height] [-r fps] [-a ratio] [-I] [-V kbps] [-M] [-A kbps] [-d] avifile [mp4file]"
+			exit 1 ;;
+	esac
+done
+shift `expr $OPTIND - 1`
+
+if [ $debug = 1 ]; then
+	set -x
+fi
+
+# The name of the AVI input file
+avifile=$1
+prefix=`expr $avifile : '\(.*\)\.avi'`
+
+# The name of the MP4 output file
+if [ -n "$2" ] ; then
+	mp4file=$2
+else
+	mp4file=${prefix}.mp4
+fi
+
+# Check that the input AVI file exists
+if [ ! -f "$avifile" ] ; then
+	echo "Input file $avifile does not exist"
+	exit 2
+fi
+
+# A few more initializations
+rawframesize=`expr ${videoWidth} \* ${videoHeight} \* 3 / 2`
+here=`pwd`
+
+# For Divx encoder, this generates 1 I frame every two seconds
+ifrequency=`expr $fps \* 2`
+
+if [ $use_iso = 1 ]; then 
+	# For ISO encoder, these default values 
+	# yield I P B B P B B ... for every 1 second period
+	bfrequency=2
+	pfrequency=`expr \( $fps / \( $bfrequency + 1 \) \) - 1`
+fi
+
+# Create output directories for ISO video encoder if necessary
+if [ $use_iso = 1 ]; then 
+	if [ ! -d mp4vout ]; then
+		mkdir mp4vout
+	fi
+	if [ ! -d yuvout ]; then
+		mkdir yuvout
+	fi
+fi
+
+date
+echo "Starting encode of ${mp4file}"
+
+if [ ! -f $prefix.yuv ] || [ $prefix.avi -nt $prefix.yuv ]; then
+	echo "Extracting video from avi"
+	tmpfile=./.tmp$$
+	avi2raw -v $prefix.avi $prefix.yuv > $tmpfile
+
+	# Convert from RGB24 to YUV12 if desired
+	if [ $convertRgb = 1 ]; then
+		mv $prefix.yuv $prefix.rgb
+		echo "Converting video from RGB24 to YUV12"
+		rgb2yuv -w $videoWidth -h $videoHeight $prefix.rgb $prefix.yuv
+		rm -f ${prefix.rgb}
+	fi
+
+	# Perform simple check that we do indeed have raw YUV12 video
+	numframes=`awk '{print $1}' $tmpfile`
+	targetbytes=`expr ${numframes} \* ${rawframesize}`
+	numbytes=`wc -c < ${prefix}.yuv`
+	rm -f ${tmpfile}
+
+	if [ $targetbytes != $numbytes ]; then
+		echo "Extracted video isn't correct size for YUV12 ${videoWidth}x${videoHeight}"
+		echo "Please check specified video frame size and YUV12 format"
+		exit 2
+	fi 
+
+	# Crop video if desired
+	if [ $aspectRatio != 1.33 ] ; then
+		echo "Cropping video to ${aspectRatio}:1"
+		lboxcrop -w ${videoWidth} -h ${videoHeight} -a ${aspectRatio} ${prefix}.yuv ${prefix}_crop.yuv
+		mv ${prefix}_crop.yuv ${prefix}.yuv
+	fi
+fi
+
+if [ $aspectRatio != 1.33 ] ; then
+	videoHeight=`dc -e"$videoWidth $aspectRatio / p"`
+	temp=`dc -e"$videoHeight 16 % p"`
+	if [ $temp != 0 ] ; then
+		videoHeight=`dc -e"16 $temp - $videoHeight + p"`
+	fi
+fi
+
+numbytes=`wc -c < ${prefix}.yuv`
+numframes=`expr ${numbytes} / ${rawframesize}`
+lastframe=`expr ${numframes} - 1`
+
+echo "Encoding ${numframes} frames of video"
+
+if [ $use_iso = 0 ]; then 
+	vfile=${prefix}.divx
+	xvidenc -b ${vbitRate} -h ${videoHeight} -w ${videoWidth} -r ${fps} -i ${ifrequency} ${prefix}.yuv ${vfile}
+
+else
+	# Create video encoder parameters file from template
+	isoBitRate=`expr ${vbitRate} \* 100000`
+	sed -e "s?BASEDIR?${here}?" -e "s/FILEPREFIX/${prefix}/" -e "s/LASTFRAME/${lastframe}/" -e "s/FRAMEWIDTH/${videoWidth}/" -e "s/FRAMEHEIGHT/${videoHeight}/" -e "s/FRAMERATE/${fps}/" -e "s/BFREQUENCY/${bfrequency}/" -e "s/PFREQUENCY/${pfrequency}/" -e "s/BITRATE/${isoBitRate}/" mp4venc_template.par > ${prefix}.par 
+
+	mp4venc ${prefix}.par
+	vfile=${prefix}.cmp
+	mv ./mp4vout/01/${vfile} ./${vfile}
+	rm ./yuvout/01/${prefix}.yuv
+fi
+
+if [ $debug = 0 ]; then
+	rm -f ${prefix}.yuv
+fi
+
+echo "Finished encoding video"
+
+if [ ! -f $prefix.pcm ] || [ $prefix.avi -nt $prefix.pcm ]; then
+	echo "Splitting out audio from avi"
+	avi2raw -a ${prefix}.avi ${prefix}.pcm
+fi
+
+echo "Encoding audio"
+if [ $use_mp3 = 0 ]; then 
+	afile=${prefix}.aac
+	faac -r${samplingFreq} -m4 -pLC -b${abitRate} ${prefix}.pcm ${afile}
+else
+	afile=${prefix}.mp3
+	lame -r -s${samplingFreq} -x -h -b ${abitRate} ${prefix}.pcm ${afile}
+fi
+
+if [ $debug = 0 ]; then
+	rm -f ${prefix}.pcm
+fi
+
+rm -f ${mp4file}
+
+echo "Creating mp4 file with video"
+mp4creator -c ${vfile} -rate=${fps} -H ${mp4file}
+
+if [ $debug = 0 ]; then
+	rm -f ${vfile}
+fi
+
+echo "Merging audio with video in mp4 file"
+mp4creator -c ${afile} -H -O ${mp4file}
+
+if [ $debug = 0 ]; then
+	rm -f ${afile}
+fi
+
+if [ $debug = 1 ]; then
+	set +o xtrace
+fi
+
+date
+echo "Finished, results are in ${mp4file}"
+

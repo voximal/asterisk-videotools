@@ -1,0 +1,405 @@
+#!/bin/sh
+
+# this script should convert files from FLV to WAV and then to MP3
+echo " "
+echo " Video Converter"
+echo " Copyrights i6net 2010"
+echo " "
+
+if [ -z "$1" ]; then
+  echo ""
+  echo "Usage: $0 {options} list_of_video_files"
+  echo "  convertion options : -3gp/3g | -mp4/3g | -mp4/(h263,h264) | -3gp/hints | -flv"
+  echo "  record options     : -(avi,mov)/(alaw,ulaw)/record"
+  echo "                       -(3gp,avi,mov)/(alaw,ulaw)/record/split"
+  echo "  image options      : -3gp/3gp/image"
+  echo "  codecs options     : -force/input/(alaw,ulaw,h263,h264)"
+  echo "         options     : -force/output(copy,h263,h264)"
+  echo ""
+  
+  exit 1
+fi
+
+# video encoding bit rate
+V_BITRATE=45000
+V_SIZE="176x144"
+FORMAT="-3gp/3g"
+V_CODECIN=""
+V_CODECOUT=""
+
+while [ "$1" ]; do
+  case "$1" in
+    -output/copy)
+      if  [ "$V_CODECOUT" = "" ]; then
+      V_CODECOUT="-vcodec copy"
+      fi
+      ;;
+    -output/h263)
+      if  [ "$V_CODECOUT" = "" ]; then
+      V_CODECOUT="-vcodec h263"
+      fi
+      ;;
+    -output/h264)
+      if  [ "$V_CODECOUT" = "" ]; then
+      V_CODECOUT="-vcodec libx264"
+      fi
+      ;;
+    -input/h263)
+      if  [ "$V_CODECIN" = "" ]; then
+      V_CODECIN="-vcodec h263"
+      fi
+      ;;
+    -input/h264)
+      if  [ "$V_CODECIN" = "" ]; then
+      V_CODECIN="-vcodec libx264"
+      fi
+      ;;
+    -3gp/3g)
+      FORMAT="$1"
+      FFMPEG_OPTS=""
+      ;;
+    -3gp/3g/test)
+      FORMAT="$1"
+      FFMPEG_OPTS=""
+      ;;
+    -3gp/3g/bis)
+      FORMAT="$1"
+      FFMPEG_OPTS=""
+      ;;
+    -mp4/3g)
+      FORMAT="$1"
+      FFMPEG_OPTS=""
+      ;;
+    -mp4/full)
+      FORMAT="$1"
+      FFMPEG_OPTS=""
+      ;;
+    -mp4/h264)
+      FORMAT="$1"
+      V_SIZE="320x240"
+      V_BITRATE=300000
+      FFMPEG_OPTS=""
+      ;;
+    -mov/alaw)
+      FORMAT="$1"
+      FFMPEG_OPTS=""
+      ;;
+    -mov/ulaw)
+      FORMAT="$1"
+      FFMPEG_OPTS=""
+      ;;
+    -avi/alaw/record)
+      FORMAT="$1"
+      V_SIZE="cif"
+      FFMPEG_OPTS=""
+      ;;
+    -avi/ulaw/record)
+      FORMAT="$1"
+      V_SIZE="cif"
+      FFMPEG_OPTS=""
+      ;;
+    -mov/alaw/record)
+      FORMAT="$1"
+      V_SIZE="cif"
+      FFMPEG_OPTS=""
+      ;;
+    -mov/ulaw/record)
+      FORMAT="$1"
+      V_SIZE="cif"
+      FFMPEG_OPTS=""
+      ;;      
+    -mp4/alaw/record/stereo)
+      FORMAT="$1"
+      V_SIZE="cif"
+      FFMPEG_OPTS=""
+      ;;
+    -mp4/ulaw/record/stereo)
+      FORMAT="$1"
+      V_SIZE="cif"
+      FFMPEG_OPTS=""
+      ;;
+    -3gp/ulaw/karaoke/mix)
+      FORMAT="$1"
+      V_SIZE="qcif"
+      FFMPEG_OPTS=""
+      ;;
+    -3gp/amr/karaoke/mix)
+      FORMAT="$1"
+      V_SIZE="qcif"
+      FFMPEG_OPTS=""
+      ;;
+    -3gp/alaw/record/split)
+      FORMAT="$1"
+      V_SIZE="320x240"
+      FFMPEG_OPTS=""
+      ;;
+    -3gp/ulaw/record/split)
+      FORMAT="$1"
+      V_SIZE="320x240"
+      FFMPEG_OPTS=""
+      ;;
+    -avi/alaw/record/split)
+      FORMAT="$1"
+      V_SIZE="cif"
+      FFMPEG_OPTS=""
+      ;;
+    -avi/ulaw/record/split)
+      FORMAT="$1"
+      V_SIZE="cif"
+      FFMPEG_OPTS=""
+      ;;
+    -mov/alaw/record/split)
+      FORMAT="$1"
+      V_SIZE="cif"
+      FFMPEG_OPTS=""
+      ;;
+    -mov/ulaw/record/split)
+      FORMAT="$1"
+      V_SIZE="cif"
+      FFMPEG_OPTS=""
+      ;;
+    -flv)
+      FORMAT="$1"
+      FFMPEG_OPTS=""
+      ;;
+    -3gp/3g/image)
+      FORMAT="$1"
+      V_SIZE="qcif"
+      FFMPEG_OPTS=""
+      ;;      
+    *)
+            
+            
+      infile_name="$1"
+            
+      if  [ $FORMAT = "-3gp/3g" ]; then
+        ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 7 -vcodec h263 -b $V_BITRATE \
+         -bt 10000 -vstats -ar 8000 -acodec libopencore_amrnb -ac 1 -ab 12200 -vstats_file \
+          vstats-2p-noip -pass 1 "`basename $1 .avi`.3gp"
+        ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 7 -vcodec h263 -b $V_BITRATE \
+         -bt 10000 -vstats -ar 8000 -acodec libopencore_amrnb -ac 1 -ab 12200 -vstats_file  \
+          vstats-2p-noip -pass 2 "`basename $1 .avi`.3gp"
+        mp4creator -hint=1 "`basename $1 .avi`.3gp"
+        mp4creator -hint=2 "`basename $1 .avi`.3gp"        
+      fi
+      if  [ $FORMAT = "-3gp/3g/test" ]; then
+        ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 10 -vcodec h263 -b $V_BITRATE \
+         -bt 10000 -vstats -ar 8000 -acodec libopencore_amrnb -ac 1 -ab 12200 -vstats_file \
+          vstats-2p-noip -pass 1 "`basename $1 .avi`.3gp"
+        ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 10 -vcodec h263 -b $V_BITRATE \
+         -bt 10000 -vstats -ar 8000 -acodec libopencore_amrnb -ac 1 -ab 12200 -vstats_file  \
+          vstats-2p-noip -pass 2 "`basename $1 .avi`.3gp"
+        mp4creator -hint=1 "`basename $1 .avi`.3gp"
+        mp4creator -hint=2 "`basename $1 .avi`.3gp"        
+      fi
+      if  [ $FORMAT = "-3gp/3g/bis" ]; then
+       ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 7 -vcodec h263 -b $V_BITRATE \
+        -bt 10000 -vstats -ar 8000 -acodec libopencore_amrnb -ac 1 -ab 12200 -flags loop \
+        -me_method full -b_qfactor 0.8 -dct mmx -precmp rd -skipcmp rd -pre_dia_size 4 \
+        -vstats_file vstats-2p-noip -pass 1 "`basename $1 .avi`.3gp" 
+       ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 7 -vcodec h263 -b $V_BITRATE \
+        -bt 10000 -vstats -ar 8000 -acodec libopencore_amrnb -ac 1 -ab 12200 -flags loop \
+        -me_method full -b_qfactor 0.8 -dct mmx -precmp rd -skipcmp rd -pre_dia_size 4 \
+        -vstats_file vstats-2p-noip -pass 2 "`basename $1 .avi`.3gp" 
+        mp4creator -hint=1 "`basename $1 .avi`.3gp"
+        mp4creator -hint=2 "`basename $1 .avi`.3gp"        
+      fi
+      if  [ $FORMAT = "-mp4/3g" ]; then
+        ffmpeg -y -i "$1" -acodec pcm_mulaw -ar 8000 -ac 1 -f mulaw /tmp/convert.mulaw
+        ffmpeg -y -i "$1" -acodec pcm_alaw -ar 8000 -ac 1 -f alaw /tmp/convert.alaw
+        ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 7 -vcodec h263 -b $V_BITRATE \
+         -bt 10000 -vstats -ar 8000 -acodec libopencore_amrnb -ac 1 -ab 12200 -vstats_file \
+          vstats-2p-noip -pass 1 /tmp/convert.3gp
+        ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 7 -vcodec h263 -b $V_BITRATE \
+         -bt 10000 -vstats -ar 8000 -acodec libopencore_amrnb -ac 1 -ab 12200 -vstats_file  \
+          vstats-2p-noip -pass 2 /tmp/convert.3gp
+        mv /tmp/convert.3gp "`basename $1 .avi`.mp4"
+        mp4creator -hint=1 "`basename $1 .avi`.mp4"
+        mp4creator -hint=2 "`basename $1 .avi`.mp4"
+        pcm2mp4 /tmp/convert.mulaw "`basename $1 .avi`.mp4"
+        pcm2mp4 /tmp/convert.alaw "`basename $1 .avi`.mp4"
+        rm /tmp/convert.mulaw
+        rm /tmp/convert.alaw
+      fi
+      if  [ $FORMAT = "-mp4/3g" ]; then
+        ffmpeg -y -i "$1" -acodec pcm_mulaw -ar 8000 -ac 1 -f mulaw /tmp/convert.mulaw
+        ffmpeg -y -i "$1" -acodec pcm_alaw -ar 8000 -ac 1 -f alaw /tmp/convert.alaw
+        ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 7 -vcodec h263 -b $V_BITRATE \
+         -bt 10000 -vstats -ar 8000 -acodec libopencore_amrnb -ac 1 -ab 12200 -vstats_file \
+          vstats-2p-noip -pass 1 /tmp/convert.3gp
+        ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 7 -vcodec h263 -b $V_BITRATE \
+         -bt 10000 -vstats -ar 8000 -acodec libopencore_amrnb -ac 1 -ab 12200 -vstats_file  \
+          vstats-2p-noip -pass 2 /tmp/convert.3gp
+        mv /tmp/convert.3gp "`basename $1 .avi`.mp4"
+        mp4creator -hint=1 "`basename $1 .avi`.mp4"
+        mp4creator -hint=2 "`basename $1 .avi`.mp4"
+        pcm2mp4 /tmp/convert.mulaw "`basename $1 .avi`.mp4"
+        #pcm2mp4 /tmp/convert.alaw "`basename $1 .avi`.mp4"
+        rm /tmp/convert.mulaw
+        rm /tmp/convert.alaw
+      fi      
+      if  [ $FORMAT = "-mp4/full" ]; then
+        ffmpeg -y -i "$1" -acodec pcm_mulaw -ar 8000 -ac 1 -f mulaw /tmp/convert.mulaw
+        ffmpeg -y -i "$1" -acodec pcm_alaw -ar 8000 -ac 1 -f alaw /tmp/convert.alaw
+        ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 7 -vcodec h263 -b $V_BITRATE \
+         -bt 10000 -vstats -ar 8000 -acodec libopencore_amrnb -ac 1 -ab 12200 -vstats_file \
+          vstats-2p-noip -pass 1 /tmp/convert.3gp
+        ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 7 -vcodec h263 -b $V_BITRATE \
+         -bt 10000 -vstats -ar 8000 -acodec libopencore_amrnb -ac 1 -ab 12200 -vstats_file  \
+          vstats-2p-noip -pass 2 /tmp/convert.3gp
+        mv /tmp/convert.3gp "`basename $1 .avi`.mp4"
+        ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 7 -vcodec libx264 -b $V_BITRATE \
+         -bt 10000 -vstats -vstats_file \
+          vstats-2p-noip -pass 1 /tmp/convert.mp4
+        ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 7 -vcodec libx264 -b $V_BITRATE \
+         -bt 10000 -vstats -vstats_file  \
+          vstats-2p-noip -pass 2 /tmp/convert.mp4
+        mp4creator -extract=1 /tmp/convert.mp4
+        #rm /tmp/convert.mp4
+        mv /tmp/convert.mp4.t1 /tmp/convert.264
+        mp4creator -create /tmp/convert.264 -rate 7 "`basename $1 .avi`.mp4"
+        #rm /tmp/convert.264
+        mp4creator -hint=1 "`basename $1 .avi`.mp4"
+        mp4creator -hint=2 "`basename $1 .avi`.mp4"
+        mp4creator -hint=3 "`basename $1 .avi`.mp4"
+        pcm2mp4 /tmp/convert.mulaw "`basename $1 .avi`.mp4"
+        pcm2mp4 /tmp/convert.alaw "`basename $1 .avi`.mp4"
+        rm /tmp/convert.mulaw
+        rm /tmp/convert.alaw
+      fi      
+      if  [ $FORMAT = "-mp4/h264" ]; then
+        ffmpeg -y -i "$1" -acodec pcm_mulaw -ar 8000 -ac 1 -f mulaw /tmp/convert.mulaw
+        ffmpeg -y -i "$1" -acodec pcm_alaw -ar 8000 -ac 1 -f alaw /tmp/convert.alaw
+        ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 7 -vcodec libx264 -b $V_BITRATE \
+         -bt 10000 -vstats -ar 8000 -acodec libopencore_amrnb -ac 1 -ab 12200 -vstats_file \
+          vstats-2p-noip -pass 1 /tmp/convert.3gp
+        ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 7 -vcodec libx264 -b $V_BITRATE \
+         -bt 10000 -vstats -ar 8000 -acodec libopencore_amrnb -ac 1 -ab 12200 -vstats_file  \
+          vstats-2p-noip -pass 2 /tmp/convert.3gp
+        mv /tmp/convert.3gp "`basename $1 .avi`.mp4"
+        mp4creator -hint=1 "`basename $1 .avi`.mp4"
+        mp4creator -hint=2 "`basename $1 .avi`.mp4"
+        pcm2mp4 /tmp/convert.mulaw "`basename $1 .avi`.mp4"
+        pcm2mp4 /tmp/convert.alaw "`basename $1 .avi`.mp4"
+        rm /tmp/convert.mulaw
+        rm /tmp/convert.alaw
+      fi
+      if  [ $FORMAT = "-mov/alaw" ]; then
+        ffmpeg -y -acodec pcm_alaw -i "$1" -vcodec copy -acodec pcm_s16le -ar 22050 "$1.mov"
+      fi      
+      if  [ $FORMAT = "-mov/ulaw" ]; then
+        ffmpeg -y -acodec pcm_mulaw -i "$1" -vcodec copy -acodec pcm_s16le -ar 22050 "$1.mov"
+      fi      
+      if  [ $FORMAT = "-avi/alaw/record" ]; then
+        ffmpeg -y -acodec pcm_alaw -i "$1" -map 0.0 -map 0.2 -s $V_SIZE -ar 22050 "$1.avi"
+      fi
+      if  [ $FORMAT = "-avi/ulaw/record" ]; then
+        ffmpeg -y -acodec pcm_mulaw -i "$1" -map 0.0 -map 0.2 -s $V_SIZE -ar 22050 "$1.avi"
+      fi    
+      if  [ $FORMAT = "-mov/alaw/record" ]; then
+        ffmpeg -y -acodec pcm_alaw -i "$1" -map 0.0 -map 0.2 -vcodec copy -acodec pcm_s16le -ar 22050 "$1.mov"
+      fi
+      if  [ $FORMAT = "-mov/ulaw/record" ]; then
+        ffmpeg -y -acodec pcm_mulaw -i "$1" -map 0.0 -map 0.2 -vcodec copy -acodec pcm_s16le -ar 22050 "$1.mov"
+      fi        
+      if  [ $FORMAT = "-mp4/alaw/record/stereo" ]; then
+        ffmpeg -y -acodec pcm_alaw -i "$1" -map 0.1  "$1-in.wav"
+        ffmpeg -y -acodec pcm_alaw -i "$1" -map 0.2  "$1-out.wav"
+        mp4creator -delete=2 "$1"
+        mp4creator -delete=3 "$1"
+        soxmix -v 1 "$1-in.wav" -v 1 "$1-out.wav" "$1.wav"
+        ffmpeg -y -i "$1.wav" -acodec pcm_alaw -ar 8000 -ac 1 -f alaw "$1.alaw"
+        pcm2mp4 "$1.alaw" "$1"        
+        mp4creator -delete=5 "$1"
+      fi   
+      if  [ $FORMAT = "-mp4/ulaw/record/stereo" ]; then
+        ffmpeg -y -acodec pcm_mulaw -i "$1" -map 0.1  "$1-in.wav"
+        ffmpeg -y -acodec pcm_mulaw -i "$1" -map 0.2  "$1-out.wav"
+        mp4creator -delete=2 "$1"
+        mp4creator -delete=3 "$1"
+        soxmix -v 1 "$1-in.wav" -v 1 "$1-out.wav" "$1.wav"
+        ffmpeg -y -i "$1.wav" -acodec pcm_mulaw -ar 8000 -ac 1 -f mulaw "$1.ulaw"
+        pcm2mp4 "$1.ulaw" "$1"        
+        mp4creator -delete=5 "$1"
+      fi   
+      if  [ $FORMAT = "-3gp/ulaw/karaoke/mix" ]; then
+        ffmpeg -y -acodec libopencore_amrnb -i "$1" -map 0.2  "${infile_name%.3gp}-in.wav"
+        ffmpeg -y -acodec pcm_mulaw -i "$1" -map 0.4  "${infile_name%.3gp}-out.wav"
+        #mp4creator -delete=2 "$1"
+        mp4creator -delete=3 "$1"
+        mp4creator -delete=4 "$1"
+        mp4creator -delete=5 "$1"
+        mp4creator -delete=6 "$1"
+        sox -m -v 8 "${infile_name%.3gp}-in.wav" -v 0.2 "${infile_name%.3gp}-out.wav" "${infile_name%.3gp}.wav"
+	      soxmix -v 1 "${infile_name%.3gp}-in.wav" -v 1 "${infile_name%.3gp}-out.wav" "${infile_name%.3gp}wav"
+        #ffmpeg -y -i "${infile_name%.3gp}.wav" -acodec pcm_mulaw -ar 8000 -ac 1 -f mulaw "${infile_name%.3gp}.ulaw"
+        ffmpeg -y -i "${infile_name%.3gp}.wav" -acodec libopencore_amrnb -ar 8000 -ac 1 -f amr -ab 12200 "${infile_name%.3gp}.amr"
+        #pcm2mp4 "${infile_name%.3gp}.ulaw" "$1"
+        mp4creator -create "${infile_name%.3gp}.amr" "$1"           
+        #mp4creator -delete=8 "$1"
+        mp4creator -hint=7 $1
+      fi  
+      if  [ $FORMAT = "-3gp/amr/karaoke/mix" ]; then
+        ffmpeg -y -acodec libopencore_amrnb -i "$1" -map 0.2  "${infile_name%.3gp}-in.wav"
+        ffmpeg -y -acodec libopencore_amrnb -i "$1" -map 0.4  "${infile_name%.3gp}-out.wav"
+        #mp4creator -delete=2 "$1"
+        mp4creator -delete=3 "$1"
+        mp4creator -delete=4 "$1"
+        mp4creator -delete=5 "$1"
+        mp4creator -delete=6 "$1"
+        sox -m -v 8 "${infile_name%.3gp}-in.wav" -v 0.5 "${infile_name%.3gp}-out.wav" "${infile_name%.3gp}.wav"
+	      soxmix -v 1 "${infile_name%.3gp}-in.wav" -v 1 "${infile_name%.3gp}-out.wav" "${infile_name%.3gp}.wav"
+        #ffmpeg -y -i "${infile_name%.3gp}.wav" -acodec pcm_mulaw -ar 8000 -ac 1 -f mulaw "${infile_name%.3gp}.ulaw"
+        ffmpeg -y -i "${infile_name%.3gp}.wav" -acodec libopencore_amrnb -ar 8000 -ac 1 -f amr -ab 12200 "${infile_name%.3gp}.amr"
+        #pcm2mp4 "${infile_name%.3gp}.ulaw" "$1"
+        mp4creator -create "${infile_name%.3gp}.amr" "$1"           
+        #mp4creator -delete=8 "$1"
+        mp4creator -hint=7 $1
+      fi  
+      if  [ $FORMAT = "-mov/ulaw/record/stereo" ]; then
+        ffmpeg -y -acodec pcm_mulaw -i "$1" -map 0.0 -map 0.1 -map 0.2 -vcodec copy -ac 2 -acodec pcm_s16le -ar 22050 "$1.mov"
+      fi
+         
+      if  [ $FORMAT = "-3gp/alaw/record/split" ]; then
+        ffmpeg -y -acodec pcm_alaw -i "$1" -map 0.0 -map 0.2 -vcodec libx264 -s $V_SIZE -acodec libopencore_amrnb -ab 12.2k "$1-in.3gp"
+        ffmpeg -y -acodec pcm_alaw -i "$1" -map 0.4 -map 0.6 -vcodec libx264 -s $V_SIZE -acodec libopencore_amrnb -ab 12.2k "$1-out.3gp"
+      fi
+      if  [ $FORMAT = "-3gp/ulaw/record/split" ]; then
+        ffmpeg -y -acodec pcm_mulaw -i "$1" -map 0.0 -map 0.2 -vcodec libx264 -s $V_SIZE -acodec libopencore_amrnb -ab 12.2k "$1-in.3gp"
+        ffmpeg -y -acodec pcm_mulaw -i "$1" -map 0.4 -map 0.6 -vcodec libx264 -s $V_SIZE -acodec libopencore_amrnb -ab 12.2k "$1-out.3gp"
+      fi
+      if  [ $FORMAT = "-avi/alaw/record/split" ]; then
+        ffmpeg -y -acodec pcm_alaw -i "$1" -map 0.0 -map 0.1 -s $V_SIZE -ar 22050 "$1-in.avi"
+        ffmpeg -y -acodec pcm_alaw -i "$1" -map 0.2 -map 0.3 -s $V_SIZE -ar 22050 "$1-out.avi"
+      fi
+      if  [ $FORMAT = "-avi/ulaw/record/split" ]; then
+        ffmpeg -y -acodec pcm_mulaw -i "$1" -map 0.0 -map 0.1 -s $V_SIZE -ar 22050 "$1-in.avi"
+        ffmpeg -y -acodec pcm_mulaw -i "$1" -map 0.2 -map 0.3 -s $V_SIZE -ar 22050 "$1-out.avi"
+      fi
+      if  [ $FORMAT = "-mov/alaw/record/split" ]; then
+        ffmpeg -y $V_CODECIN -acodec pcm_alaw -i "$1" -map 0.0 -map 0.1 $V_CODECOUT -acodec pcm_s16le -ar 22050 "$1-in.mov"
+        ffmpeg -y $V_CODECIN -acodec pcm_alaw -i "$1" -map 0.2 -map 0.3 $V_CODECOUT -acodec pcm_s16le -ar 22050 "$1-out.mov"
+      fi
+      if  [ $FORMAT = "-mov/ulaw/record/split" ]; then
+        ffmpeg -y $V_CODECIN -acodec pcm_mulaw -i "$1" -map 0.0 -map 0.1 $V_CODECOUT -acodec pcm_s16le -ar 22050 "$1-in.mov"
+        ffmpeg -y $V_CODECIN -acodec pcm_mulaw -i "$1" -map 0.2 -map 0.3 $V_CODECOUT -acodec pcm_s16le -ar 22050 "$1-out.mov"
+      fi
+      if  [ $FORMAT = "-3gp/hints" ]; then
+        mp4creator -hint=1 $1
+        mp4creator -hint=2 $1        
+        mp4creator -hint=100 $1
+        mp4creator -hint=200 $1        
+      fi      
+      if  [ $FORMAT = "-flv" ]; then
+        ffmpeg -y -i "$1" $FFMPEG_OPTS -s $V_SIZE -ar 22050  \
+          "$1.flv"
+      fi  
+      if  [ $FORMAT = "-3gp/3g/image" ]; then      
+        ffmpeg -y -loop_input -vframes 20 -i "$1" $FFMPEG_OPTS -s $V_SIZE -r 7 -vb 40k -ab 10.2k -i_qfactor 1 \
+         "`basename $1 .jpg`.3gp"
+        mp4creator -hint=1 "`basename $1 .jpg`.3gp"
+      fi          
+      ;;
+  esac
+  shift
+done
